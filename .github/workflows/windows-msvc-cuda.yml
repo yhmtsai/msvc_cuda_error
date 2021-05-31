@@ -28,4 +28,7 @@ jobs:
         $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
         Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
         refreshenv
-        nvcc hello.cu
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --config Release
