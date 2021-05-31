@@ -1,5 +1,5 @@
 name: Windows-MSVC-CUDA (compile-only)
-
+on: push
 jobs:
   windows_cuda:
     strategy:
