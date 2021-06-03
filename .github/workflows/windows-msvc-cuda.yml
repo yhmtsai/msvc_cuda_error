@@ -10,9 +10,11 @@ jobs:
         - {version: "latest", name: "cuda-latest"}
     name: msvc/${{ matrix.config.name }} (only compile)
     runs-on: [windows-latest]
-
     steps:
     - uses: actions/checkout@v2
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        toolset: 16.9
     - name: setup (versioned)
       if: matrix.config.version != 'latest'
       run: |
