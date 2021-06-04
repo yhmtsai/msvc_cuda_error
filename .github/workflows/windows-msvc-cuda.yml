@@ -21,7 +21,8 @@ jobs:
     - name: setup (latest)
       if: matrix.config.version == 'latest'
       run: |
-        choco install visualstudio2019buildtools --package-parameters "--includeRecommended"
+        choco install visualstudio2019buildtools --package-parameters "--includeRecommended" -y
+        choco install visualstudio2019-workload-vctools -y
         choco install cuda -y
 
     - name: configure
