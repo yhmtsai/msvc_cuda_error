@@ -24,8 +24,6 @@ jobs:
         choco install cuda -y
     - name: Debug over SSH (tmate)
       uses: mxschmitt/action-tmate@v3.5
-      with:
-        limit-access-to-actor: true
     - name: configure
       run: |
         $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
