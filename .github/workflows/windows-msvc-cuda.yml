@@ -1,23 +1,14 @@
 name: Windows-MSVC-CUDA (compile-only)
-on:
-  push:
-  workflow_dispatch:
-    inputs:
-      debug_enabled:
-        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
-        required: false
-        default: true
+on: push
 jobs:
   windows_cuda:
     strategy:
       fail-fast: false
       matrix:
         config:
-        - {version: "10.2.89.20191206", name: "cuda102"}
         - {version: "latest", name: "cuda-latest"}
     name: msvc/${{ matrix.config.name }} (only compile)
     runs-on: [windows-latest]
-
     steps:
     - uses: actions/checkout@v2
     - name: setup (versioned)
@@ -33,7 +24,6 @@ jobs:
         choco install cuda -y
     - name: Debug over SSH (tmate)
       uses: mxschmitt/action-tmate@v3.5
-      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
       with:
         limit-access-to-actor: true
     - name: configure
