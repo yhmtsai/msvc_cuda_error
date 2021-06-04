@@ -1,5 +1,12 @@
 name: Windows-MSVC-CUDA (compile-only)
-on: push
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: true
 jobs:
   windows_cuda:
     strategy:
@@ -24,7 +31,11 @@ jobs:
         choco install visualstudio2019buildtools --package-parameters "--includeRecommended" -y
         choco install visualstudio2019-workload-vctools -y
         choco install cuda -y
-
+    - name: Debug over SSH (tmate)
+      uses: mxschmitt/action-tmate@v3.5
+      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
+      with:
+        limit-access-to-actor: true
     - name: configure
       run: |
         $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
